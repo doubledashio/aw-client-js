@@ -28,6 +28,24 @@ export interface IBucket {
   last_update?: Date;
 }
 
+export interface IRule {
+  type: string;
+  regex?: string;
+  ignore_case?: boolean;
+}
+
+export interface ICategory {
+  id?: number;
+  name: string[];
+  name_pretty?: string;
+  subname?: string;
+  rule: IRule;
+  data?: any;
+  depth?: number;
+  parent?: string[];
+  children?: ICategory[];
+}
+
 interface IHeartbeatQueueItem {
     onSuccess: (value?: PromiseLike<undefined> | undefined) => void;
     onError: (err: AxiosError) => void;
@@ -203,6 +221,14 @@ export class AWClient {
             }),
         };
         return (await this.req.post("/0/query/", data)).data;
+    }
+
+    public async getCategories(): Promise<ICategory[]> {
+        return (await this.req.get("/0/categories")).data;
+    }
+
+    public async saveCategories(categories: ICategory[]): Promise<any> {
+        return (await this.req.post("/0/categories", categories)).data;
     }
 
     private async send_heartbeat(bucketId: string, pulsetime: number, data: IEvent): Promise<IEvent> {
