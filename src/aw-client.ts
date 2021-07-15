@@ -231,6 +231,10 @@ export class AWClient {
         return (await this.req.post("/0/categories", categories)).data;
     }
 
+    public async getTranslations(): Promise<any> {
+        return (await this.req.get("/0/translations")).data;
+    }
+
     private async send_heartbeat(bucketId: string, pulsetime: number, data: IEvent): Promise<IEvent> {
         const url = "/0/buckets/" + bucketId + "/heartbeat?pulsetime=" + pulsetime;
         const heartbeat = (await this.req.post(url, data)).data;
