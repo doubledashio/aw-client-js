@@ -232,7 +232,7 @@ export class AWClient {
     }
 
     public async getTranslations(): Promise<any> {
-        return (await this.req.get("/0/translations")).data;
+        return (await this.req.get("/0/translations?limit_to=999999999")).data;
     }
 
     private async send_heartbeat(bucketId: string, pulsetime: number, data: IEvent): Promise<IEvent> {
